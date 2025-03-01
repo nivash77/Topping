@@ -6,6 +6,7 @@ function Search() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dishes, setDishes] = useState([]); 
   const [error, setError] = useState(null); 
+  let clickofDish;
   const [selectedRecipe, setRecipe] = useState([]);
   const [newDish, setNewDish] = useState({
     name: "",
@@ -36,8 +37,14 @@ function Search() {
 
   const fetchRepice = async (dishName) => {
     try {
+      if(selectedRecipe.length > 0){
+          setRecipe("");
+      }
+      else{
       const res = await getRecipesForDish(dishName);
+      clickofDish=dishName;
       setRecipe(res.data); 
+      }
     } catch (error) {
       console.error("Error fetching recipes:", error);
     }

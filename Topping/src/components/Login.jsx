@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { getUser } from '../service/api';
-
+import { useUser } from './UserContext';
 export const Login = () => {
     const navigate = useNavigate();
+    const { setUser } = useUser();
     const [inputValue, setInputValue] = useState({
         username: "",
         password: "",
@@ -26,55 +27,74 @@ export const Login = () => {
             position: "bottom-left",
         });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await getUser(username); 
-           alert( response.data); 
-            if (response.status === 200) {
-                const user = response.data;
-                console.log("Fetched User:", user);
-                alert(inputValue.username)
-                if (user.username===inputValue.username) {
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+          
+            try {
+              const response = await getUser(username); // Call the API
+          
+              //alert(response.data)
+              if (response.status === 200) {
+                const user = response.data.user; // Extract user data
+               // console.log("Fetched User:", user);
+                // Check if user exists and has the correct password
+                //console.log(user.password)
+                if (user.username === username) {
+                  if (user.password === password) {
                     handleSuccess("Login successful!");
-                    navigate('/home');
+                  // alert("Login successful!")
+                  setUser(username)
+                  localStorage.setItem("user", JSON.stringify({ username: user.username }));
+                  setUser({ username: user.username });
+                    navigate('/home'); // Navigate to the home page
+                  } else {
+                    toast.error("Incorrect password. Please try again.", {
+                      position: "bottom-left",
+                    });
+                  }
+                } else {
+                  toast.error("User not found. Please check your username.", {
+                    position: "bottom-left",
+                  });
                 }
-                    if (!user.password ) {
-                        alert("Password field is missing in user data.");
-                        return;
-                    }
-                 else {
-                    handleError("Incorrect password. Please try again.");
+              }
+            } catch (error) {
+              console.error("Login error:", error.response ? error.response.data : error.message);
+              if (error.response) {
+                // Server responded with an error
+                if (error.response.status === 404) {
+                  toast.error("User not found. Please check your username.", {
+                    position: "bottom-left",
+                  });
+                } else if (error.response.status === 500) {
+                  toast.error("Internal server error. Please try again later.", {
+                    position: "bottom-left",
+                  });
+                } else {
+                  toast.error("An unexpected error occurred. Please try again.", {
+                    position: "bottom-left",
+                  });
                 }
+              } else if (error.request) {
+                // No response from server
+                toast.error("No response from server. Please check your network connection.", {
+                  position: "bottom-left",
+                });
+              } else {
+                // General error
+                toast.error(`Error: ${error.message}`, {
+                  position: "bottom-left",
+                });
+              }
             }
-        } catch (error) {
-            console.error("Login error:", error.response ? error.response.data : error.message);
-            
-            // Display a user-friendly message based on the error
-               // Display a user-friendly message based on the error
-        if (error.response) {
-            // Server responded with a status other than 2xx
-            if (error.response.status === 404) {
-                alert("User not found. Please check your email.");
-            } else if (error.response.status === 500) {
-                alert("Internal server error. Please try again later.");
-            } else {
-               alert("An unexpected error occurred. Please try again.");
-            }
-        } else if (error.request) {
-            // The request was made but no response was received
-            alert("No response from server. Please check your network connection.");
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            alert("Error: " + error.message);
-        }
-    }
-
-        setInputValue({
-            username: "",
-            password: "",
-        });
-    };
+          
+            // Reset the form fields
+            setInputValue({
+              username: "",
+              password: "",
+            });
+          };
+          
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">

@@ -10,8 +10,10 @@ import { Login } from './components/Login';
 import { SignUp } from './components/SignUp';
 import CartIndex from './products/CartIndex';
 import PaymentProcessing from './products/Payment';
+import { UserProvider } from './components/UserContext';
 function App() {
   return (
+    <UserProvider> 
     <Router>
       <NabBar />
       <Routes>
@@ -26,7 +28,7 @@ function App() {
         <Route path="/SignUp" element={<SignUp/>} />
       </Routes>
     </Router>
-  
+  </UserProvider>
 
     
   );

@@ -13,7 +13,7 @@ const getPostAll=()=>axios.get(`${API}/post/all`);
 const deleteDish=(dishName)=>axios.delete(`${API}/delete/${dishName}`);
 const getorderProduct=()=>axios.get(`${API}/orderproduct/all`);
 const addUser=(user)=>axios.post(`${API}/users/add`,user);
-const getUser=(username)=>axios.get(`{API}/users/${username}`);
+const getUser=(username)=>axios.get(`${API}/users/${username}`);
 export {
     getDishes,
     addDish,

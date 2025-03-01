@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { getDishes } from "../service/api";
-
+import { useNavigate } from "react-router-dom";
 function Home() {
     const [dishes, setDishes] = useState([]);
     const [error, setError] = useState(null);
-
+    const navigate = useNavigate(); 
     const fetchDishes = async () => {
         try {
             const response = await getDishes();
@@ -20,7 +20,15 @@ function Home() {
             setError("Failed to fetch dishes.");
         }
     };
-
+    const handleClickRecipe=()=>{
+        navigate("/Search"); 
+    }
+    const handleClickPurchase=()=>{
+        navigate("/CartIndex");
+    }
+    const handleClickContact=()=>{
+        navigate("/Contact")
+    }
     useEffect(() => {
         fetchDishes();
     }, []);
@@ -47,16 +55,16 @@ function Home() {
                         </h1>
                     </div>
 
-                    <div className="container px-4 py-6 max-w-full flex flex-wrap gap-3 mx-auto w-full justify-center bg-slate-100">
-                        <div className="group before:hover:scale-95 before:hover:h-72 before:hover:w-80 before:hover:h-44 before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-96 before:h-24 before:rounded-t-2xl before:bg-gradient-to-bl from-sky-200 via-orange-200 to-orange-700 before:absolute before:top-0 w-80 h-72 relative bg-slate-50 flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden">
+                    <div  className="container px-4 py-6 max-w-full flex flex-wrap gap-3 mx-auto w-full justify-center bg-slate-100">
+                        <div  onClick={handleClickContact} className="group before:hover:scale-95 before:hover:h-72 before:hover:w-80 before:hover:h-44 before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-96 before:h-24 before:rounded-t-2xl before:bg-gradient-to-bl from-sky-200 via-orange-200 to-orange-700 before:absolute before:top-0 w-80 h-72 relative bg-slate-50 flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden">
                             <div className="w-28 h-28  mt-2 rounded-full border-4 border-slate-50 z-10 group-hover:scale-150 group-hover:-translate-x-24  group-hover:-translate-y-20 transition-all duration-500">
                                 <img src='https://ik.imagekit.io/qd01l9yk3p/ProjectMern%20image/images%20(1).jpg? updatedAt=1728388512140' className="size-28 rounded-full" /></div>
                             <div className="z-10  group-hover:-translate-y-10 transition-all duration-500">
-                                <span className="text-2xl font-semibold">Find your chief</span>
+                                <span className="text-2xl font-semibold">Contact your chief</span>
 
                             </div>
                         </div>
-                        <div className="group before:hover:scale-95 before:hover:h-72 before:hover:w-80 before:hover:h-44 before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-80 before:h-24 before:rounded-t-2xl before:bg-gradient-to-bl from-sky-200 via-orange-200 to-orange-700 before:absolute before:top-0 w-80 h-72 relative bg-slate-50 flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden">
+                        <div  onClick={handleClickRecipe} className="group before:hover:scale-95 before:hover:h-72 before:hover:w-80 before:hover:h-44 before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-80 before:h-24 before:rounded-t-2xl before:bg-gradient-to-bl from-sky-200 via-orange-200 to-orange-700 before:absolute before:top-0 w-80 h-72 relative bg-slate-50 flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden">
                             <div className="w-28 h-28  mt-2 rounded-full border-4 border-slate-50 z-10 group-hover:scale-150 group-hover:-translate-x-24  group-hover:-translate-y-20 transition-all duration-500">
                                 <img src='https://ik.imagekit.io/qd01l9yk3p/ProjectMern%20image/download.jpg?updatedAt=1728382941680' className="size-28 rounded-full" /></div>
                             <div className="z-10  group-hover:-translate-y-10 transition-all duration-500">
@@ -64,7 +72,7 @@ function Home() {
 
                             </div>
                         </div>
-                        <div className="group before:hover:scale-95 before:hover:h-72 before:hover:w-80 before:hover:h-44 before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-80 before:h-24 before:rounded-t-2xl before:bg-gradient-to-bl from-sky-200 via-orange-200 to-orange-700 before:absolute before:top-0 w-80 h-72 relative bg-slate-50 flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden">
+                        <div onClick={handleClickPurchase} className="group before:hover:scale-95 before:hover:h-72 before:hover:w-80 before:hover:h-44 before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-80 before:h-24 before:rounded-t-2xl before:bg-gradient-to-bl from-sky-200 via-orange-200 to-orange-700 before:absolute before:top-0 w-80 h-72 relative bg-slate-50 flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden">
                             <div className="w-28 h-28  mt-2 rounded-full border-4 border-slate-50 z-10 group-hover:scale-150 group-hover:-translate-x-24  group-hover:-translate-y-20 transition-all duration-500">
                                 <img src='https://ik.imagekit.io/qd01l9yk3p/ProjectMern%20image/food-delivery_662093-1600.avif?updatedAt=1728388511276' className="size-28 rounded-full" /></div>
                             <div className="z-10  group-hover:-translate-y-10 transition-all duration-500">
