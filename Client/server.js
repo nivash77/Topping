@@ -10,15 +10,10 @@ const userRouter = require("./Router/Authuser");
 const orderRouter = require("./Router/orderProduct");
 
 const app = express();
-const PORT = process.env.PORT || 7777; // ✅ Single port for both functionalities
+const PORT = process.env.PORT || 7777; 
 
-
-
-// ✅ Middleware
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-
-// ✅ Email Sending Route
 app.post("/send-email", async (req, res) => {
     const { name, email, receiverEmail, subject, message } = req.body;
 
@@ -29,14 +24,14 @@ app.post("/send-email", async (req, res) => {
     let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.EMAIL_USER, // ✅ Use .env for security
+            user: process.env.EMAIL_USER, 
             pass: process.env.EMAIL_PASS,
         },
     });
 
     let mailOptions = {
-        from: `"${name}" <${email}>`, // ✅ Sender's email
-        to: receiverEmail, // ✅ Receiver's email
+        from: `"${name}" <${email}>`,
+        to: receiverEmail, 
         subject: subject,
         text: `Sender: ${name} <${email}>\nReceiver: ${receiverEmail}\n\n${message}`,
     };
@@ -50,18 +45,13 @@ app.post("/send-email", async (req, res) => {
     }
 });
 
-// ✅ API Routes
 app.use("/post", PostRouter);
 app.use("/dishes", DishesRouter);
 app.use("/users", userRouter);
 app.use("/orderproduct", orderRouter);
-
-// ✅ Root Route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to the Cooking Forum API!" });
 });
-
-// ✅ Start Server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port: ${PORT}`);
+    console.log(`Server running on port: ${PORT}`);
 });
