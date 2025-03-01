@@ -34,17 +34,17 @@ router.post('/add', async (req, res) => {
 router.get('/:username', async (req, res) => {
   try {
     const { username } = req.params; 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select('+password');
     
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     
-    const { password, ...userData } = user.toObject();
+    //const { password, ...userData } = user.toObject();
 
     return res.status(200).json({
       success: true,
-      user: userData,
+      user: user.toObject(),
     });
   } catch (error) {
     console.error("Get User Error:", error);

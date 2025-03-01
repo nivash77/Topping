@@ -13,6 +13,14 @@ const dishSchema = new mongoose.Schema({
     description: {
         type: String,
         required: false
+    },
+    rating:{
+        type:Number,
+        required:false
+    },
+    cookingTime:{
+        type:String,
+        required:true
     }
 });
 
