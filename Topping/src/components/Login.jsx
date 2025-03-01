@@ -76,19 +76,17 @@ export const Login = () => {
                   });
                 }
               } else if (error.request) {
-                // No response from server
+             
                 toast.error("No response from server. Please check your network connection.", {
                   position: "bottom-left",
                 });
               } else {
-                // General error
                 toast.error(`Error: ${error.message}`, {
                   position: "bottom-left",
                 });
               }
             }
           
-            // Reset the form fields
             setInputValue({
               username: "",
               password: "",
