@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 7777;
 
 app.use(express.json());
-app.use(cors({ origin: "https://topping-phi.vercel.app/", credentials: true }));
+app.use(cors({ origin: "https://topping-phi.vercel.app", credentials: true }));
 
 app.post("/send-email", async (req, res) => {
     const { name, email, receiverEmail, subject, message } = req.body;
