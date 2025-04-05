@@ -1,20 +1,13 @@
-require("dotenv").config();
+require("dotenv").config(); // ✅ Load environment variables
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
-const dbconn = require("./config/db"); 
-
-const DishesRouter = require("./Router/Dishresipes");
-const PostRouter = require("./Router/Postrouter"); 
-const userRouter = require("./Router/Authuser");
-const orderRouter = require("./Router/orderProduct");
 
 const app = express();
-const PORT = process.env.PORT || 7777;
-
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
+// ✅ Email sending route
 app.post("/send-email", async (req, res) => {
     const { name, email, receiverEmail, subject, message } = req.body;
 
@@ -22,19 +15,20 @@ app.post("/send-email", async (req, res) => {
         return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
+    // ✅ Setup Nodemailer transport
     let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
+            user: process.env.EMAIL_USER, // ✅ Use environment variables
+            pass: process.env.EMAIL_PASS, // ✅ Secure password
         },
     });
 
     let mailOptions = {
-        from: `"${name}" <${email}>`,
-        to: receiverEmail,
-        subject: subject,
-        text: `Sender: ${name} <${email}>\nReceiver: ${receiverEmail}\n\n${message}`,
+        from: `"${name}" <${email}>`, // ✅ Shows sender's email in the "From" field
+        to: receiverEmail, // ✅ Sends email to the receiver
+        subject: subject, // ✅ Subject from form
+        text: `Sender: ${name} <${email}>\nReceiver: ${receiverEmail}\n\n${message}`, // ✅ Includes both sender & receiver emails
     };
 
     try {
@@ -46,15 +40,13 @@ app.post("/send-email", async (req, res) => {
     }
 });
 
-app.use("/post", PostRouter);
-app.use("/dishes", DishesRouter);
-app.use("/users", userRouter);
-app.use("/orderproduct", orderRouter);
-
+// ✅ Root route to check server status
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to the Cooking Forum API!" });
+    res.send("Email Server is running.");
 });
 
+// ✅ Start server
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server running on port: ${PORT}`);
+    console.log(`🚀 Email Server running on port ${PORT}`);
 });
