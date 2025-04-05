@@ -9,7 +9,7 @@ export const SignUp = () => {
         email: "",
         password: "",
     });
-    const [errorMessage, setErrorMessage] = useState(""); 
+    const [errorMessage, setErrorMessage] = useState(""); // State for displaying error
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,11 +28,13 @@ export const SignUp = () => {
         } catch (error) {
             if (error.response) {
                 const { status, data } = error.response;
-                console.error("Error Response:", data); 
+                console.error("Error Response:", data); // Debugging log
 
                 if (status === 409) {
                     const errorMessage = data.message || "User already exists. Please try a different email.";
                     setErrorMessage(errorMessage);
+
+                    // Remove the message after 3 seconds
                     setTimeout(() => {
                         setErrorMessage("");
                     }, 3000);

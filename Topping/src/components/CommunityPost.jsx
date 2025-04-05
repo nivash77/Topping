@@ -148,11 +148,20 @@ function CommunityPost() {
     const [reply, setReply] = useState("");
     const [replies, setReplies] = useState([]);
     const UserPost = useRef(null);
+
+    // ✅ Retrieve the user from localStorage correctly
     const storedUser = localStorage.getItem("user");
-    const user = storedUser ? JSON.parse(storedUser) : null; 
+    const user = storedUser ? JSON.parse(storedUser) : null; // Ensure it's an object
+
+    // Debugging: Ensure the user is fetched correctly
+    //console.log("Current User:", user);
+
+    // If user is undefined or not logged in
     if (!user || !user.username) {
         return <p className="text-center text-red-500">Please log in to access the CommunityPost page.</p>;
     }
+
+    // Fetch posts when the component mounts
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -171,7 +180,7 @@ function CommunityPost() {
     };
 
     const handlePostReply = async () => {
-        //console.log("Current User Object:", user);
+        //console.log("Current User Object:", user); // Debugging
 
         if (!user || typeof user !== "object") {
             console.error("User object is missing or incorrect format:", user);
@@ -200,7 +209,7 @@ function CommunityPost() {
             console.log("Post added successfully:", res.data);
             alert("Post added successfully");
 
-            setReply(""); 
+            setReply(""); // Clear input after posting
             setReplies([...replies, replyObject]);
         } catch (error) {
             console.error("Error adding post:", error.response ? error.response.data : error.message);

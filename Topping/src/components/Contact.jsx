@@ -4,8 +4,8 @@ import axios from "axios";
 function Contact() {
   const [formData, setFormData] = useState({
     name: "",
-    email: "", 
-    receiverEmail: "", 
+    email: "", // ✅ Sender's email
+    receiverEmail: "", // ✅ Receiver's email
     subject: "",
     message: "",
   });
@@ -16,10 +16,11 @@ function Contact() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setError(""); 
+    setError(""); // Clear error when user starts typing
     setSuccess("");
   };
 
+  // ✅ Function to validate email format
   const isValidEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
@@ -34,8 +35,8 @@ function Contact() {
     }
 
     try {
-    
-      const response = await axios.post("http://localhost:7777/send-email", formData);
+      // ✅ Sending message to the backend API
+      const response = await axios.post("https://topping.onrender.com/send-email", formData);
 
       if (response.status === 200) {
         setSuccess("Message sent successfully!");
@@ -78,7 +79,7 @@ function Contact() {
           />
         </div>
 
-        {/* Sender Email */}
+        {/* ✅ Sender Email */}
         <div className="mb-4">
           <label className="block text-gray-700 font-semibold mb-2" htmlFor="email">
             Your Email (Sender)
@@ -94,7 +95,7 @@ function Contact() {
           />
         </div>
 
-        {/*  Receiver Email */}
+        {/* ✅ Receiver Email */}
         <div className="mb-4">
           <label className="block text-gray-700 font-semibold mb-2" htmlFor="receiverEmail">
             Receiver Email (Admin or Support)
@@ -110,7 +111,7 @@ function Contact() {
           />
         </div>
 
-        {/*  New Subject Field */}
+        {/* ✅ New Subject Field */}
         <div className="mb-4">
           <label className="block text-gray-700 font-semibold mb-2" htmlFor="subject">
             Subject
