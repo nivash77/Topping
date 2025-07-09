@@ -1,4 +1,4 @@
- Food Recipe Website
+# Food Recipe Website
 
 A full-stack web application that allows users to browse, search, add, and manage food recipes. The project is split into a Client (backend) and a topping (frontend) for better scalability and maintainability.
 
